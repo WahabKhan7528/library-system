@@ -130,5 +130,28 @@ export const verifyOTP = catchAsyncErrors(async (req, res, next) => {
 
 
 export const login = catchAsyncErrors(async (req, res, next) => {
-  
+  const {email, password} = req.body
+  if(!email || !password){
+    return next(new ErrorHandler("Please enter all fields.", 400));    
+  }
+  // .select is used to get the password of the user. because in the userModel.js we have written select: false
+  const user = await User.findOne({email, accountVerified: true}).select("password")
+  if(!user){
+    return next(new ErrorHandler("Invalid email or password.", 400))
+  }
+  const isPasswordMatched = await bcrypt.compare(password, user.password)
+  if(!isPasswordMatched){
+    return next( new ErrorHandler("Invalid email or password"))
+  }
+  sendToken(user, 200 , "User logged in successfully" , res);
 })
+
+export const logout = catchAsyncErrors(async (req, res, next) => {
+  res.status(200).cookie("token", "", {
+    expires: new Date(Date.now()),
+    httpOnly: true,
+  }).json({
+    success: true,
+    message: "Logged out successfully",
+  });
+});
