@@ -1,8 +1,9 @@
 import { catchAsyncErrors } from "./catchAsyncErrors.js";
 import jwt from "jsonwebtoken";
-import { User } from "../models/userModels.js";
+import { User } from "../models/userModel.js";
 import ErrorHandler from "./errorMiddlewares.js";
 
+// FOR AUTHENTICATION
 export const isAuthenticated = catchAsyncErrors(async (req, res, next) => {
   const { token } = req.cookies;
 
@@ -20,3 +21,15 @@ export const isAuthenticated = catchAsyncErrors(async (req, res, next) => {
 
   next();
 });
+
+// FOR AUTHORIZATION
+export const isAuthorized = (...roles)=>{
+  return(req,res,next)=>{
+    if(!roles.includes(req.user.role)){
+      return next(new ErrorHandler(`${req.user.role} cannot access this resource`, 400))
+    }
+
+    // either allow the user to go next
+    next();
+  }
+}
