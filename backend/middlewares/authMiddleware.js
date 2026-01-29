@@ -11,7 +11,7 @@ export const isAuthenticated = catchAsyncErrors(async (req, res, next) => {
     // Token missing → user is already logged out
     return res.status(200).json({
       success: true,
-      message: "User is already logged out",
+      message: "There is no user",
     });
   }
 

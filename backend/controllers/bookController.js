@@ -1,7 +1,7 @@
 import { catchAsyncErrors } from "../middlewares/catchAsyncErrors.js";
 import { Book } from "../models/bookModel.js";
 import { User } from "../models/userModel.js";
-import ErrorHandler from "../middlewares/errorMiddlewares";
+import ErrorHandler from "../middlewares/errorMiddlewares.js";
 
 export const addBook = catchAsyncErrors(async (req, res, next) => {
   const { title, author, description, price, quantity } = req.body;
@@ -32,6 +32,7 @@ export const getAllBooks = catchAsyncErrors(async (req, res, next) => {
     books,
   });
 });
+
 export const deleteBook = catchAsyncErrors(async (req, res, next) => {
   const { id } = req.params;
   const book = await Book.findById(id);

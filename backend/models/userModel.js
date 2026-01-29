@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["user", "admin"],
       default: "user",
+      lowercase: true,
     },
     accountVerified: {
       type: Boolean,
@@ -30,12 +31,12 @@ const userSchema = new mongoose.Schema(
     },
     borrowedBooks: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Borrow",
-        returned: {
-          type: Boolean,
-          default: false,
+        bookId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Book",
+          required: true,
         },
+        returned: { type: Boolean, default: false },
         bookTitle: String,
         borrowedDate: Date,
         dueDate: Date,
@@ -82,9 +83,9 @@ userSchema.methods.getResetPasswordToken = function () {
     .update(resetToken)
     .digest("hex");
 
-    this.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
+  this.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
 
-    return resetToken;
+  return resetToken;
 };
 
 // Export the model

@@ -7,11 +7,7 @@ import { sendToken } from "../utils/sendToken.js";
 import { sendEmail } from "../utils/sendEmail.js";
 import { generateForgetPasswordEmailTemplate } from "../utils/emailTemplates.js";
 import crypto from "crypto";
-/**
- * @desc    Register a new user
- * @route   POST /api/auth/register
- * @access  Public
- */
+
 export const register = catchAsyncErrors(async (req, res, next) => {
   const { name, email, password } = req.body;
 
