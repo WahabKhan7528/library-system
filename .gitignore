@@ -1,0 +1,7 @@
+# backend
+backend/node_modules
+backend/config
+
+
+# frontend
+frontend/node_modules
