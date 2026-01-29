@@ -1,6 +1,7 @@
 # backend
 backend/node_modules
 backend/config
+backend/config.env
 
 
 # frontend
