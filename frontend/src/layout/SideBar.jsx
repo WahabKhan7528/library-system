@@ -63,32 +63,32 @@ const SideBar = ({ isSideBarOpen, setIsSideBarOpen, setSelectedComponent }) => {
             <span>Books</span>
           </button>
 
-          {/* {isAuthenticated && user?.role === "admin" && ( */}
-          <>
-            <button
-              className="w-full py-2 font-medium bg-transparent rounded-md hover:cursor-pointer flex items-center space-x-2"
-              onClick={() => setSelectedComponent("Catalog")}
-            >
-              <img src={catalogIcon} alt="icon" />
-              <span>Catalog</span>
-            </button>
+          {isAuthenticated && user?.role === "admin" && (
+            <>
+              <button
+                className="w-full py-2 font-medium bg-transparent rounded-md hover:cursor-pointer flex items-center space-x-2"
+                onClick={() => setSelectedComponent("Catalog")}
+              >
+                <img src={catalogIcon} alt="icon" />
+                <span>Catalog</span>
+              </button>
 
-            <button
-              className="w-full py-2 font-medium bg-transparent rounded-md hover:cursor-pointer flex items-center space-x-2"
-              onClick={() => setSelectedComponent("Users")}
-            >
-              <img src={usersIcon} alt="icon" />
-              <span>Users</span>
-            </button>
+              <button
+                className="w-full py-2 font-medium bg-transparent rounded-md hover:cursor-pointer flex items-center space-x-2"
+                onClick={() => setSelectedComponent("Users")}
+              >
+                <img src={usersIcon} alt="icon" />
+                <span>Users</span>
+              </button>
 
-            <button
-              className="w-full py-2 font-medium bg-transparent rounded-md hover:cursor-pointer flex items-center space-x-2"
-              onClick={() => dispatch(toggleaddNewAdminPopup())}
-            >
-              <RiAdminFill className="w-6 h-6" /> <span>Add new Admin</span>
-            </button>
-          </>
-          {/* )} */}
+              <button
+                className="w-full py-2 font-medium bg-transparent rounded-md hover:cursor-pointer flex items-center space-x-2"
+                onClick={() => dispatch(toggleaddNewAdminPopup())}
+              >
+                <RiAdminFill className="w-6 h-6" /> <span>Add new Admin</span>
+              </button>
+            </>
+          )}
           {isAuthenticated && user?.role === "user" && (
             <>
               <button
@@ -109,7 +109,10 @@ const SideBar = ({ isSideBarOpen, setIsSideBarOpen, setSelectedComponent }) => {
           </button>
         </nav>
         <div className="px-6 py-4">
-          <button className="py-2 font-medium text-center bg-transparent rounded-md hover:cursor-pointer flex items-center justify-center space-x-5 mx-auto w-fit">
+          <button
+            onClick={handleLogout}
+            className="py-2 font-medium text-center bg-transparent rounded-md hover:cursor-pointer flex items-center justify-center space-x-5 mx-auto w-fit"
+          >
             <img src={logoutIcon} alt="" />
             <span>Logout</span>
           </button>
