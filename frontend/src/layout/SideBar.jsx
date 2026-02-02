@@ -10,7 +10,7 @@ import usersIcon from "../assets/people.png";
 import { RiAdminFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { resetAuthSlice } from "../store/slices/authSlice";
-import { toggleaddNewAdminPopup } from "../store/slices/popUpSlice";
+import { toggleaddNewAdminPopup, toggleSettingPopup } from "../store/slices/popUpSlice";
 import { useEffect } from "react";
 import Catalog from "./../components/Catalog";
 import AddNewAdmin from "../popups/AddNewAdmin";
@@ -102,7 +102,7 @@ const SideBar = ({ isSideBarOpen, setIsSideBarOpen, setSelectedComponent }) => {
           )}
           <button
             className="w-full py-2 font-medium bg-transparent rounded-md hover:cursor-pointer flex items-center space-x-2"
-            // onClick={() => setSelectedComponent("MyBorrowedBooks")}
+            onClick={() => dispatch(toggleSettingPopup())}
           >
             <img src={settingIcon} alt="icon" />
             <span>Update Credentials</span>

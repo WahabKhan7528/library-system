@@ -31,6 +31,8 @@ const Register = () => {
 
   useEffect(() => {
     if (message) {
+      toast.success(message)
+      dispatch(resetAuthSlice())
       NavigateTo(`/otp-verification/${email}`);
     }
     if (error) {
