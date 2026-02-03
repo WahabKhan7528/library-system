@@ -29,11 +29,11 @@ const SideBar = ({ isSideBarOpen, setIsSideBarOpen, setSelectedComponent }) => {
   useEffect(() => {
     if (error) {
       toast.error(error);
-      dispatch(resetAuthSlice);
+      dispatch(resetAuthSlice());
     }
     if (message) {
       toast.success(message);
-      dispatch(resetAuthSlice);
+      dispatch(resetAuthSlice());
     }
   }, [dispatch, isAuthenticated, error, loading, message]);
 
@@ -63,7 +63,7 @@ const SideBar = ({ isSideBarOpen, setIsSideBarOpen, setSelectedComponent }) => {
             <span>Books</span>
           </button>
 
-          {isAuthenticated && user?.role === "admin" && (
+          {isAuthenticated && user?.role?.toLowerCase() === "admin" && (
             <>
               <button
                 className="w-full py-2 font-medium bg-transparent rounded-md hover:cursor-pointer flex items-center space-x-2"
@@ -89,7 +89,7 @@ const SideBar = ({ isSideBarOpen, setIsSideBarOpen, setSelectedComponent }) => {
               </button>
             </>
           )}
-          {isAuthenticated && user?.role === "user" && (
+          {isAuthenticated && user?.role?.toLowerCase() === "user" && (
             <>
               <button
                 className="w-full py-2 font-medium bg-transparent rounded-md hover:cursor-pointer flex items-center space-x-2"

@@ -137,9 +137,9 @@ export const login = catchAsyncErrors(async (req, res, next) => {
   if (!email || !password) {
     return next(new ErrorHandler("Please enter all fields.", 400));
   }
-  // .select is used to get the password of the user. because in the userModel.js we have written select: false
+  // .select("+password") ensures we get the password (which is select: false) AND all other fields (name, role, etc.)
   const user = await User.findOne({ email, accountVerified: true }).select(
-    "password",
+    "+password",
   );
   if (!user) {
     return next(new ErrorHandler("Invalid email or password.", 400));
@@ -148,6 +148,8 @@ export const login = catchAsyncErrors(async (req, res, next) => {
   if (!isPasswordMatched) {
     return next(new ErrorHandler("Invalid email or password"));
   }
+  // IMPORTANT: Remove password before sending user data to frontend
+  user.password = undefined;
   sendToken(user, 200, "User logged in successfully", res);
 });
 
@@ -252,14 +254,14 @@ export const resetPassword = catchAsyncErrors(async (req, res, next) => {
   sendToken(user, 200, "Password reset successfull", res);
 });
 
-export const updatePassword = catchAsyncErrors(async (req, res, next)=> {
+export const updatePassword = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.user._id).select("password");
-  const {currentPassword, newPassword, confirmNewPassword} = req.body;
-  if(!currentPassword || !newPassword || !confirmNewPassword){
+  const { currentPassword, newPassword, confirmNewPassword } = req.body;
+  if (!currentPassword || !newPassword || !confirmNewPassword) {
     return next(new ErrorHandler("please enter all the fields.", 400))
   }
   const isPasswordMatched = await bcrypt.compare(currentPassword, user.password)
-  if(!isPasswordMatched){
+  if (!isPasswordMatched) {
     return next(new ErrorHandler("Current password is incorrect.", 400))
   }
   if (
@@ -267,10 +269,10 @@ export const updatePassword = catchAsyncErrors(async (req, res, next)=> {
     newPassword.length > 16 ||
     confirmNewPassword.length < 8 ||
     confirmNewPassword.length > 16
-  ){
+  ) {
     return next(new ErrorHandler("Password must be between 8 and 16 characters", 400))
   }
-  if(newPassword !== confirmNewPassword){
+  if (newPassword !== confirmNewPassword) {
     return next(new ErrorHandler("New password and Confirm new password do not match", 400))
   }
   // if the current password is same as the password saved in the database then the user is allowed to fill the newPassword and confirmNewPassword fields and then if the newPassword and confirmNewPassword match, the password would be updated to the UPDATED PASSWORD.

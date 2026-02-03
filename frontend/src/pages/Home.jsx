@@ -36,37 +36,21 @@ const Home = () => {
 
         {/* Switch case statment is used here as an IIFE (Imediatly Invoked Function Expression) */}
         {(() => {
+          const role = user?.role?.toLowerCase();
+
           switch (selectedComponent) {
             case "Dashboard":
-              return user?.role === "User" ? (
-                <UserDashboard />
-              ) : (
-                <AdminDashboard />
-              );
-              break;
+              return role === "user" ? <UserDashboard /> : <AdminDashboard />;
             case "Books":
               return <BookManagement />;
-              break;
             case "Catalog":
-              if (user.role === "admin") {
-                return <Catalog />;
-              }
-              break;
+              return role === "admin" ? <Catalog /> : <UserDashboard />;
             case "Users":
-              if (user.role === "admin") {
-                return <Users />;
-              }
-              break;
-            case "My Borrowed Books":
+              return role === "admin" ? <Users /> : <UserDashboard />;
+            case "MyBorrowedBooks":
               return <MyBorrowedBooks />;
             default:
-              // ternary operator with optional chaining is being used here
-              return user?.role === "User" ? (
-                <UserDashboard />
-              ) : (
-                <AdminDashboard />
-              );
-              break;
+              return role === "user" ? <UserDashboard /> : <AdminDashboard />;
           }
         })()}
       </div>
